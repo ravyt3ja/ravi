@@ -1,0 +1,23 @@
+name: Keep GitHub Active
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # Runs daily at 12 PM UTC
+
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  update_activity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make a commit
+        run: |
+          echo "$(date)" >> activity_log.txt
+          git config --global user.name "YourGitHubUsername"
+          git config --global user.email "your-email@example.com"
+          git add activity_log.txt
+          git commit -m "Daily activity update"
+          git push
